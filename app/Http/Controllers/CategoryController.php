@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         $kategori = Category::all();
+        // return $kategory;
+        return view('category.index', compact('kategori'));
     }
 
     /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.add');
     }
 
     /**
@@ -35,7 +38,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request
+        $request->validate(
+            [
+                'icon' => 'required',
+                'kategori' => 'required|min:3|max:25'
+            ],
+            [
+                'kategori.required' => 'Kolom Kategori Harus Diisi',
+                'kategori.min' => 'Isi harus lebih dari 3 karakter',
+                'kategori.max' => 'Isi harus kurang dari 25 karakter'
+            ]
+        );
+
+        $img = $request->file('icon');
+        $nama_file = time(). "_". $img->getClientOriginalName();
+        $img->move('dist/img', $nama_file); //proses upload foto ke directory Laravel
+
+        Category::create([
+            'icon' => $nama_file,
+            'nama' => $request->kategori
+        ]);
+        return redirect('/category')->with('status', 'Berhasil Ditambahkan');
     }
 
     /**
@@ -57,7 +81,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        // return $category;
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -69,7 +94,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        // return $request;
+        $request->validate([
+            'kategori' => 'required|min:3|max:25'
+        ],
+        [
+            'kategori.required' => 'Kolom Kategori Harus Diisi',
+            'kategori.min' => 'Isi harus lebih dari 3 karakter',
+            'kategori.max' => 'Isi harus kurang dari 25 karakter'
+        ]);
+
+        $img = $request->file('icon');
+        $nama_file = time(). "_". $img->getClientOriginalName();
+        $img->move('dist/img', $nama_file); //proses upload foto ke directory Laravel
+
+        Category::where('id', $category->id)->update([
+            'icon' => $nama_file,
+            'nama' => $request->kategori
+        ]);
+        return redirect('/category')->with('status', 'Berhasil Diubah');
     }
 
     /**
@@ -80,6 +123,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Category::destroy('id', $category->id);
+        return redirect('/category')->with('status', 'Berhasil Dihapus');
     }
 }
