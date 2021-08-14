@@ -1,21 +1,21 @@
 @extends('template.master')
-@section('tittle', 'Edit category')
+@section('tittle', 'Edit Kurir')
 
 @section('content')
 <section class="content-wrapper">
     <!-- Content Header (Page header) -->
-    {{-- <h2>halaman tambah category</h2> --}}
+    {{-- <h2>halaman tambah kurir</h2> --}}
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Category</h1>
+                    <h1 class="m-0">Kurir</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href=" {{url('/category')}} ">Category</a></li>
-                        <li class="breadcrumb-item active">Edit Category</li>
+                        <li class="breadcrumb-item"><a href=" {{url('/kurir')}} ">kurir</a></li>
+                        <li class="breadcrumb-item active">Edit Kurir</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,27 +30,34 @@
               <!-- jquery validation -->
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Edit <strong> Category</strong></h3>
+                  <h3 class="card-title">Edit <strong>Kurir</strong></h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{url('/category/'. $category->id)}}" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/kurir/'. $kurir->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <div class="card-body">
-                        <div class="form-group">
-                          <label for="exampleFormControlFile1">Choose Icon Product</label>
-                          <input type="file" class="form-control-file" name="icon" id="exampleFormControlFile1">
-                        </div>
                     <div class="form-group">
-                      <label for="kategori">Category Name</label>
-                      <input type="text" name="kategori" class="form-control @error('kategori') is-invalid @enderror" id="kategori" placeholder="Edit New Category" value="{{$category->nama}}">
-                      @error('kategori')
+                      <label for="kurir">Nama Kurir</label>
+                      <input type="text" name="kurir" class="form-control @error('kurir') is-invalid @enderror" id="kurir" placeholder="Edit New kurir" value="{{$kurir->nama}}">
+                      @error('kurir')
                       <div class="invalid-feedback">
                         {{$message}}
                       </div>
                       @enderror
                     </div>
+                    <div class="form-group">
+                      <label for="ongkir">Ongkos Kirim</label>
+                      <input type="text" name="ongkir"
+                          class="form-control @error('ongkir') is-invalid @enderror" id="ongkir"
+                          value="{{ old('ongkir') }}" placeholder="Enter New Price">
+                      @error('ongkir')
+                          <div class="invalid-feedback">
+                              {{ $message }}
+                          </div>
+                      @enderror
+                  </div>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer">

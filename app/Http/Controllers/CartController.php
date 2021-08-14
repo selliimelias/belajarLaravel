@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Kurir;
 use App\Models\Bank;
+use App\Models\Number;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,10 @@ class CartController extends Controller
         $subtotal = Cart::where('status', 0)->sum('total');
         $kurir = Kurir::all();
         $bank = Bank::all();
+        $number = Number::where('id', 1)->get();
+        $angka = ($number[0]->angka)+1;
+        $date = date('dmY');
+        $invoice = "INV-PK-$date-$angka";
         return view('keranjang.index', compact('cart', 'subtotal', 'kurir', 'bank'));
 
     }
@@ -111,6 +116,7 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        Cart::destroy('id', $cart->id);
+        return redirect('/cart')->with('status', 'Berhasil Dihapus');
     }
 }

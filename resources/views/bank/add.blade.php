@@ -38,6 +38,17 @@
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
+                                        <label for="rek">Nomor Rekening</label>
+                                        <input type="text" name="rek"
+                                            class="form-control @error('rek') is-invalid @enderror" id="rek"
+                                            value="{{ old('rek') }}" placeholder="Enter New Rekening">
+                                        @error('rek')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label for="uang">Bank Name</label>
                                         <input type="text" name="uang"
                                             class="form-control @error('uang') is-invalid @enderror" id="uang"

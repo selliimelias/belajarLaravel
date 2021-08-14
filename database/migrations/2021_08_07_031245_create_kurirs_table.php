@@ -16,7 +16,7 @@ class CreateKurirsTable extends Migration
         Schema::create('kurirs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_kurir');
-            $table->string('opsi_pengiriman');
+            $table->integer('ongkir');
             $table->timestamps();
         });
     }

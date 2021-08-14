@@ -95,11 +95,11 @@
                                     <h5>Action </h5>
                                 </div>
                             </div>
-                            
+
                             @foreach ($cart as $item)
-                            <div class="col-lg-12">
-                                <hr style="margin-top:0; margin-bottom:20px; border-color: #000000;">
-                            </div>
+                                <div class="col-lg-12">
+                                    <hr style="margin-top:0; margin-bottom:20px; border-color: #000000;">
+                                </div>
                                 <div class="row text-center">
                                     <div class="col-lg-3">
                                         <img style="width:100px;"
@@ -115,7 +115,13 @@
                                         <br>
                                     </div>
                                     <div class="col-lg-3">
-                                        <img src="./assets/delete.png" alt="">
+                                        <form action="{{ url ('/cart/' .$item->id) }}" method="POST">
+                                        <button type="submit" class="btn btn btn-outline-success">
+                                        @csrf
+                                        @method('delete')
+                                        <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        </form>
                                     </div>
                                 </div>
                             @endforeach
@@ -126,208 +132,44 @@
                         <div class="bg.keranjangdetail">
                             <form>
                                 <div class="form-group">
-                                    <label for="formGroupExampleInput">Alamat</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
                                         placeholder="Isi Alamat Lengkap">
                                 </div>
 
-                                <!-- <h5>Alamat</h5>
-                            <input class="form-control form-control-lg" type="text"
-                                placeholder="Jalan Layang2 no 2 rajawali royal - veteran p palembang"
-                                aria-label=".form-control-lg example"> -->
-                                <!-- <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>ID Transaksi</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <h6>#SH12000</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-
                                 <div class="bg-keranjang-detail p-3">
-                                    <h6>ID Transaksi<span>#SH12000</span></h6>
-                                    <hr>
-                                    <h6>Subtotal<span><b>IDR</b>{{ $subtotal }}</span></h6>
                                     <hr>
                                     <h6>Kurir<span>
-                                            <form action="/action_page.php">
-                                                <select id="kurir" name="kurir">
-                                                    @foreach ($kurir as $item)
-                                                        <option value="{{ $item->id }}">
-                                                            {{ $item->nama_kurir }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </form>
-                                        </span></h6>
-                                    <hr>
-                                    <h6>Ongkos kirim<span><b>IDR</b>160.000</span></h6>
+                                        <form action="/action_page.php">
+                                            <select id="kurir" name="kurir">
+                                                @foreach ($kurir as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->nama_kurir }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </form>
+                                    </span></h6>
                                     <hr>
                                     <h6>Bank Transfer<span>
-                                            <form action="/action_page.php">
-                                                <select id="bank" name="bank">
-                                                    @foreach ($bank as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->nama_bank }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </form>
-                                        </span></h6>
+                                        <form action="/action_page.php">
+                                            <select id="bank" name="bank">
+                                                @foreach ($bank as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_bank }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </form>
+                                    </span></h6>
                                     <hr>
-                                    <h6>No. Rekening<span>0102 1029 3841</span></h6>
-                                    <hr>
-                                    <h6>Total Belanja<span><b>IDR</b>2.159.800</span></h6>
+                                    <h6>Subtotal<span><b>IDR</b>{{ $subtotal }}</span></h6>
                                     <hr>
                                     <div class="d-grid gap-2">
                                         <button class="btn btn-primary" type="button">Pesan Sekarang</button>
                                     </div>
                                 </div>
-
-
-                                <!-- <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Subtotal</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <h6><b>IDR</b> 1.999.800</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Kurir</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <form action="/action_page.php">
-                                                <select id="cars" name="cars">
-                                                    <option value="volvo">Bank Mandiri</option>
-                                                    <option value="saab">Bank BCA</option>
-                                                    <option value="fiat" selected>Fiat</option>
-                                                    <option value="audi">Audi</option>
-                                                </select>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Ongkos kirim</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <h6><b>IDR</b>160.000</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Bank Transfer</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <form action="/action_page.php">
-                                                <select id="cars" name="cars">
-                                                    <option value="volvo">Bank Mandiri</option>
-                                                    <option value="saab">Bank BCA</option>
-                                                    <option value="fiat" selected>Fiat</option>
-                                                    <option value="audi">Audi</option>
-                                                </select>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>No. Rekening</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <h6>0102 1029 3841</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Total Belanja</h6>
-                                    </div>
-
-                                    <div class="alamat">
-                                        <div class="col-lg-6">
-                                            <h6><b>IDR</b>2.159.800</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border-color: #000000;">
-                            </div>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-primary" type="button">Pesan Sekarang</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-
                         </div>
                     </div>
-
-                    <!-- </div>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="button">Button</button>
-                    <button class="btn btn-primary" type="button">Button</button>
-                  </div> -->
                 </div>
             </div>
             </div>
@@ -481,25 +323,3 @@
     </script>
 
 </body>
-
-
-
-
-
-
-<!-- 
-                        <div class="col">
-                            <p>ID Transaksi</p>
-
-                        </div>
-                        <div class="col text-right">
-                            <p>#SH12000</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>ID Transak123si</p>
-
-                    </div>
-                    <div class="col text-right">
-                        <p>#SH112132000</p>
-                    </div> -->

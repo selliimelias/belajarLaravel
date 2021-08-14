@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBanksTable extends Migration
+class AddAlamatToTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateBanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('banks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('no_rek');
-            $table->string('nama_bank');
-            $table->timestamps();
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->text('alamat');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateBanksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banks');
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropColumn('alamat');
+        });
     }
 }

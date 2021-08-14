@@ -1,7 +1,7 @@
 {{-- @dd($kategori) --}}
 
 @extends('template.master')
-@section('tittle', 'Category')
+@section('tittle', 'Kurir')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -11,12 +11,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Category</h1>
+                        <h1 class="m-0">Kurir</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Category Name</li>
+                            <li class="breadcrumb-item active">Kurir</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -30,7 +30,7 @@
                 <!-- Main row -->
                 <div class="row">
                     <div class="col md-auto">
-                        <a href="{{ url('/category/create') }}" class="btn btn-info btn-sm" role="button">Add Category
+                        <a href="{{ url('/kurir/create') }}" class="btn btn-info btn-sm" role="button">Add kurir
                         </a>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                         @endif
                         <div class="card">
                             <div class="card-header">
-                                <h2 class="card-title"> Data Category</h2>
+                                <h2 class="card-title">Data Kurir</h2>
                             </div>
 
                             <div class="card-body">
@@ -57,22 +57,22 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Icon</th>
-                                                <th>Nama</th>
+                                                <th>Nama Kurir</th>
+                                                <th>Ongkos Kirim</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($kategori as $item)
+                                            @foreach ($kurir as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td><img src="{{asset('dist/img/' . $item->icon)}}" width="50" alt=""></td>
-                                                    <td>{{ $item->nama }}</td>
+                                                    <td>{{ $item->nama_kurir }}</td>
+                                                    <td>{{ $item->ongkir }}</td>
                                                     <td>
                                                         
-                                                            <a href="{{ url('/category/' . $item->id . '/edit') }}"
+                                                            <a href="{{ url('/kurir/' . $item->id . '/edit') }}"
                                                                 class="btn btn-primary">Edit</a>
-                                                            <form action="{{ url('/category/' . $item->id) }}"
+                                                            <form action="{{ url('/kurir/' . $item->id) }}"
                                                                 method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('delete')

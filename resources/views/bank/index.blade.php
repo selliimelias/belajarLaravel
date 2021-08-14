@@ -63,11 +63,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($kategori as $item)
+                                            @foreach ($uang as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->no_rek }}</td>
                                                     <td>{{ $item->nama_bank }}</td>
-                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>
                                                         
                                                             <a href="{{ url('/bank/' . $item->id . '/edit') }}"
