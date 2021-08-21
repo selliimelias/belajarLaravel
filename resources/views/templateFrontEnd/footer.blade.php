@@ -1,4 +1,3 @@
-
     <section id="footer">
         <div class="container">
             <div class="row pt-4 pl-4">
@@ -9,7 +8,6 @@
                     <p>Sebagai Pusat Fashion Online di palembang, kami menciptakan gaya tanpa batas dengan cara
                         memperluas jangkauan produk, mulai dari produk internasional hingga produk lokal
                         dambaan.</p>
-
                 </div>
                 <div class="col-lg-2">
                     <h4>Layanan</h4>

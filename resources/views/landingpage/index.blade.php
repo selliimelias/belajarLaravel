@@ -199,7 +199,5 @@
         </div>
     </section>
     <!-- akhir rekomendasi -->
-    <br>
-    <br>
 
 @endsection
