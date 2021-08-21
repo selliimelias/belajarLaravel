@@ -19,9 +19,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::all();
+        $cart = Cart::where('status', 0)->where('user_id', Auth::user()->id)->get();
         // return $cart;
-        $subtotal = Cart::where('status', 0)->sum('total');
+        $subtotal = Cart::where('status', 0)->sum('subtotal');
         $kurir = Kurir::all();
         $bank = Bank::all();
         $number = Number::where('id', 1)->get();
@@ -63,15 +63,28 @@ class CartController extends Controller
 
         $product = Product::where('id', $request->product_id)->get();
         $total = $product[0]->harga_barang * $request->qty;
+        $keranjang = Cart::where('user_id', Auth::user()->id)
+        ->where('status', 0)->get();
+
+        foreach($keranjang as $item)
+        {
+            if($request->product_id == $item->product_id)
+            {
+                Cart::where('product_id', $item->product_id)->update([
+                    'qty' => $item->qty + $request->qty
+                ]);
+                return redirect()->back();
+            }
+        }
 
         Cart::create([
             'user_id' => Auth::user()->id,
             'product_id' => $request->product_id,
             'qty' => $request->qty,
-            'total' => $total,
+            'subtotal' => $total,
             'status' => 0
         ]);
-        return redirect('/cart')->with('status', 'Berhasil Ditambahkan');
+        return redirect()->back();
     }
 
     /**

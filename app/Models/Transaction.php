@@ -9,15 +9,11 @@ class Transaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'cart_id', 
         'bank_id', 
         'kurir_id', 
-        'number_id', 
-        'no_invoice'];
-
-    public function cart(){
-        return $this->belongsTo('App\Models\Cart');
-    }
+        'no_invoice',
+        'alamat',
+        'total'];
 
     public function bank(){
         return $this->belongsTo('App\Models\Bank');

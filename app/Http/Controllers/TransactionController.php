@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Transaction;
+use App\Models\Number;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -38,27 +43,64 @@ class TransactionController extends Controller
         // return $request;
         $request->validate(
             [
-                'kurir_id' => 'required',
-                'bank_id' => 'required|numeric',
-                'no_invoice' => 'required|numeric',
+                'kurir' => 'required',
+                'bank' => 'required|numeric',
                 'alamat' => 'required'
             ],
             [
-                'kurir_id.required' => 'Kolom Harus Diisi',
-                'bank_id.required' => 'Kolom Harus Diisi',
-                'no_invoice' => 'Kolom Harus Diisi',
+                'kurir.required' => 'Kolom Harus Diisi',
+                'bank.required' => 'Kolom Harus Diisi',
                 'alamat' => 'Kolom Harus Diisi'
             ]
         );
 
+        $number = Number::where('id', 1)->get();
+        $angka = ($number[0]->angka)+1;
+        $date = date('dmY');
+        $invoice = "INV-PK-$date-$angka";
+        Number::where('id', 1)->update(['angka'=>$angka]);
+
         Transaction::create([
-            'kurir_id' => $request->kurir_id,
-            'bank_id' => $request->bank_id,
-            'no_invoice' => $request->no_invoice,
-            'alamat' => $request->alamat
+            'no_invoice' => $invoice,
+            'kurir_id' => $request->kurir,
+            'bank_id' => $request->bank,
+            'alamat' => $request->alamat,
+            'total' => $request->subtotal 
+        ]);
+        
+        $ongkir = DB::table('kurirs')
+        ->select('kurirs.*', 'transactions.*')
+        ->join('transactions', 'kurirs.id', '=', 'transactions.kurir_id')
+        ->where('kurirs.id', $request->kurir)
+        ->get();
+
+        $transaction = Transaction::where('no_invoice', $invoice)->first();
+        Cart::where('user_id', Auth::user()->id)
+        ->where('status', 0)
+        ->update([
+            'transaction_id' => $transaction->id,
+            // 'status' => 1
         ]);
 
-        return redirect('/transaction')->with('status', 'Berhasil Diubah');
+        $keranjang = Cart::where('user_id', Auth::user()->id)
+        ->where('status', 0)
+        ->get();
+        foreach($keranjang as $item)
+        {
+            $product = Product::where('id', $item->product_id)->first();
+            Product::where('id', $item->product_id)->update([
+                'stok_barang' => $product->stok_barang - $item->qty,
+                'terjual' => $product->terjual + $item->qty
+            ]);
+        }
+        
+        Cart::where('user_id', Auth::user()->id)
+        ->where('status', 0)
+        ->update([
+            'status' => 1
+        ]);
+
+        return redirect('/transaction/' .$transaction->id)->with('status', 'Berhasil Diubah');
         // $data = Transaction::where('nama_barang', $request->name)->get();
         // dd($data);
         // return view('product.addPhoto', compact('data'));
@@ -72,7 +114,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::where('id', $id)->get();
+        // return $transaction;
+        return view('payment.index', compact('transaction'));
     }
 
     /**
@@ -107,5 +151,10 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function sukses(){
+        return view('payment/sukses');
+        // return 'sukses';
     }
 }

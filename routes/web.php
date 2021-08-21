@@ -11,6 +11,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -53,6 +54,8 @@ Route::group(['middleware' => ['auth', 'super']], function()
     Route::resource('state', StateController::class);
     Route::resource('city', CityController::class);
     Route::resource('bank', BankController::class);
+    Route::get('/promo/{product}', [ProductController::class, 'promo']);
+    Route::get('/rekomendasi/{product}', [ProductController::class, 'rekomendasi']);
 });
 
 
@@ -68,4 +71,6 @@ Route::get('/detail/{product}', [LandingController::class, 'detail']);
 Route::group(['middleware' => ['authcustomer', 'customer']], function()
 {
     Route::resource('cart', CartController::class);
+    Route::get('/transaction/sukses', [TransactionController::class, 'sukses']);
+    Route::resource('transaction', TransactionController::class);
 });

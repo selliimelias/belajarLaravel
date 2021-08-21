@@ -190,4 +190,26 @@ class ProductController extends Controller
 
         return redirect('/product')->with('status', 'Berhasil Ditambahkan');
     }
+
+    public function promo(Product $product)
+    {
+        // if($product->promo==1)
+        // {
+        //     $promo=0;
+        // }
+        // else
+        // {
+        //     $promo=1;
+        // }
+        $promo=$product->promo==1 ? 0 : 1;
+        Product::where('id', $product->id)->update(['promo'=>$promo]);
+        return redirect()->back();
+    }
+
+    public function rekomendasi(Product $product)
+    {
+        $rekomendasi=$product->rekomendasi==1 ? 0 : 1;
+        Product::where('id', $product->id)->update(['rekomendasi'=>$rekomendasi]);
+        return redirect()->back();
+    }
 }

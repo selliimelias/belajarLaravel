@@ -17,7 +17,7 @@ class AddColumnToCartsTable extends Migration
             $table->foreignId('transaction_id')
             ->constrained('transactions')
             ->onDelete('cascade')
-            ->onUpdate('cascade')->nullable;
+            ->onUpdate('cascade')->nullable();
         });
     }
 
