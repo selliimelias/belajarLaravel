@@ -130,49 +130,24 @@
                     <br>
                     <br>
                 </div>
-                <div class="row text-center">
-                    <div class="owl-carousel owl-theme promohariini">
-                        <div class="col mt-3">
-                            <div class="card" style="width: 100%;">
-                                <img class="img-terlaris" src="./assets/sepatu1.png" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h4 class="card-title">Canon Fix</h4>
-                                    <p class="card-text">IDR 850.000</p>
-                                    <a href="#" class="btn-outline-warning form-control">Lihat Barang</a>
+                <div class="owl-terlaris">
+                    <div class="row text-center">
+                        @foreach ($promo as $item)
+                            <div class="col mt-3 animate__animated animate__fadeInDownBig animate__delay-1s">
+                                <div class="card" style="width: 100%;">
+                                    <img class="img-terlaris" style="width: 100%; height: 200px; object-fit: cover;"
+                                        src="{{ asset('dist/img/' . $item->photo->nama_photo) }}" class="card-img-top"
+                                        alt="...">
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ $item->nama_barang }}</h4>
+                                        <p class="card-text">{{ $item->harga_barang }}</p>
+                                        <a href="{{ url('/detail/' . $item->id) }}"
+                                            class="btn-outline-warning form-control">Lihat
+                                            Barang</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col mt-3">
-                            <div class="card" style="width: 100%;">
-                                <img class="img-terlaris" src="./assets/sepatu1.png" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Canon Fix</h5>
-                                    <p class="card-text">IDR 850.000</p>
-                                    <a href="#" class="btn-outline-warning form-control">Lihat Barang</a>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col mt-3">
-                            <div class="card" style="width: 100%;">
-                                <img class="img-terlaris" src="./assets/sepatu1.png" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Canon Fix</h5>
-                                    <p class="card-text">IDR 850.000</p>
-                                    <a href="#" class="btn-outline-warning form-control">Lihat Barang</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col mt-3">
-                            <div class="card" style="width: 100%;">
-                                <img class="img-terlaris" src="./assets/sepatu1.png" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Canon Fix</h5>
-                                    <p class="card-text">IDR 850.000</p>
-                                    <a href="#" class="btn-outline-warning form-control">Lihat Barang</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
         </section>

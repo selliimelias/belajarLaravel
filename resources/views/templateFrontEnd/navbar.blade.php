@@ -2,9 +2,8 @@
     <!-- bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand mt-2" href="{{ url('/') }}"><img class="logobar" 
-                src="{{ asset('assets/logobar.png') }}" alt=""
-                    width="200px"></a>
+            <a class="navbar-brand mt-2" href="{{ url('/') }}"><img class="logobar"
+                    src="{{ asset('assets/logobar.png') }}" alt="" width="200px"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -16,39 +15,57 @@
                 </div>
                 <div class="col mt-2">
                     <a href="{{ url('/cart') }}">
-                    <img src="{{ asset('assets/cart.png') }}" alt="cart">
+                        <img src="{{ asset('assets/cart.png') }}" alt="cart">
+                        @if (Auth::user())
+                            @if (Keranjang::hitung() > 0)
+                                <sup><span class="badge badge-warning">{{ Keranjang::hitung() }}</span></sup>
+                            @endif
+                        @endif
                     </a>
                 </div>
                 <div class="col mt-2">
-                    <img src="{{ asset('assets/notif.png') }}" alt="">
+                    @if (Auth::user())
+                    <a class="#" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img src="{{ asset('assets/notif.png') }}" alt="">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach (Keranjang::isi() as $item)
+                            <a class="dropdown-item" href="#">{{ $item->isi }}</a>
+                            <div class="dropdown-divider"></div>
+                        @endforeach
+                    </div>
+                        @if (Keranjang::notification() > 0)
+                            <sup><span class="badge badge-warning">{{ Keranjang::notification() }}</span></sup>
+                        @endif
+                    @endif
                 </div>
 
                 @if (Auth::user())
-                <div class="dropdown">
-                    <button class="btn btn-outline-warning active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-sign-in-alt">
-                            {{ Auth::user()->name }}
-                        </i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="{{ url('/logoutCust') }}">Logout</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-warning active" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-sign-in-alt">
+                                {{ Auth::user()->name }}
+                            </i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ url('/logoutCust') }}">Logout</a>
+                        </div>
                     </div>
-                  </div>
                 @else
-                <div class="col mt-2">
-                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
-                        data-target="#modalregister">
-                        Register
-                    </button>
-                </div>
-                <div class="col mt-2">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modallogin">
-                        Login
-                    </button>
-                </div>
+                    <div class="col mt-2">
+                        <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                            data-target="#modalregister">
+                            Register
+                        </button>
+                    </div>
+                    <div class="col mt-2">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modallogin">
+                            Login
+                        </button>
+                    </div>
                 @endif
-
-
             </div>
         </div>
     </nav>
@@ -98,39 +115,39 @@
                 <div class="modal-body">
                     <form action="{{ url('/registerCust') }}" method="post">
                         @csrf
-                        <input type="hidden" id="level" name="level" value="3"> 
+                        <input type="hidden" id="level" name="level" value="3">
                         <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                            <label for="name">Full name</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <div class="col-md-12 mb-3">
+                                <label for="name">Full name</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
                         </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                        <label for="email">Email</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3"
-                            aria-describedby="invalidCheck3Feedback" required>
-                        <label class="form-check-label" for="invalidCheck3">
-                            Agree to terms and conditions
-                        </label>
-                        <div id="invalidCheck3Feedback" class="invalid-feedback">
-                            You must agree before submitting.
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3"
+                                    aria-describedby="invalidCheck3Feedback" required>
+                                <label class="form-check-label" for="invalidCheck3">
+                                    Agree to terms and conditions
+                                </label>
+                                <div id="invalidCheck3Feedback" class="invalid-feedback">
+                                    You must agree before submitting.
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning" type="submit">Register Now</button>
+                    </form>
                 </div>
-                <button class="btn btn-warning" type="submit">Register Now</button>
-                </form>
             </div>
         </div>
-    </div>
     </div>
     <!-- akhir modalregister -->

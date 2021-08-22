@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Notification;
 use App\Models\Transaction;
 use App\Models\Number;
 use App\Models\Product;
+use App\Mail\KirimEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
 {
@@ -94,11 +97,24 @@ class TransactionController extends Controller
             ]);
         }
         
+        $nama = Auth::user()->name;
         Cart::where('user_id', Auth::user()->id)
         ->where('status', 0)
         ->update([
             'status' => 1
         ]);
+
+        Notification::create([
+            'user_id' => Auth::user()->id,
+            'isi' => 'Hai '. $nama .', Silakan selesaikan Pembayaran Rp. '. $transaction->total .' dengan No. Pesanan '. $transaction->no_invoice
+        ]);
+
+        $isi = [
+            'judul' => 'Selesai Pembayaran',
+            'badan' => 'Hai '. $nama .', Silakan selesaikan Pembayaran Rp. '. $transaction->total .' dengan No. Pesanan '. $transaction->no_invoice
+        ];
+
+        Mail::to(Auth::user()->email)->send(new \App\Mail\KirimEmail($isi));
 
         return redirect('/transaction/' .$transaction->id)->with('status', 'Berhasil Diubah');
         // $data = Transaction::where('nama_barang', $request->name)->get();

@@ -17,7 +17,7 @@
                     <div style="color: #F79E22;font-size: 20px;text-align: center;">sudah kamu daftarkan sebelumnya
                     </div>
                     <hr style="width: 530px;">
-                    <button type="button" class="btn btn-warning">Back to Home</button>
+                    <a href="{{ url('/') }}"><button type="button" class="btn btn-warning">Back to Home</button></a>
                 </div>
             </div>
         </div>

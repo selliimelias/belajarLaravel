@@ -108,7 +108,7 @@
                                             alt="...">
                                         <div class="card-body">
                                             <h4 class="card-title">{{ $item->nama_barang }}</h4>
-                                            <p class="card-text">{{ $item->harga_barang }}</p>
+                                            <p class="card-text">IDR. {{ $item->harga_barang }}</p>
                                             <a href="{{ url('/detail/' . $item->id) }}"
                                                 class="btn-outline-warning form-control">Lihat
                                                 Barang</a>

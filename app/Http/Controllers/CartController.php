@@ -28,7 +28,8 @@ class CartController extends Controller
         $angka = ($number[0]->angka)+1;
         $date = date('dmY');
         $invoice = "INV-PK-$date-$angka";
-        return view('keranjang.index', compact('cart', 'subtotal', 'kurir', 'bank'));
+        $promo = Product::where('promo', 1)->get();
+        return view('keranjang.index', compact('cart', 'subtotal', 'kurir', 'bank', 'promo'));
 
     }
 
@@ -70,8 +71,10 @@ class CartController extends Controller
         {
             if($request->product_id == $item->product_id)
             {
+                $product = Product::where('id', $item->product_id)->first();
                 Cart::where('product_id', $item->product_id)->update([
-                    'qty' => $item->qty + $request->qty
+                    'qty' => $item->qty + $request->qty,
+                    'subtotal' => $product->harga_barang * ($item->qty + $request->qty)
                 ]);
                 return redirect()->back();
             }
